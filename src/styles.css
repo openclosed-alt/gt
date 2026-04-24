@@ -1,0 +1,58 @@
+
+:root { background:#000; color:#fff; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+* { box-sizing: border-box; }
+body { margin:0; background:#000; color:#fff; }
+button { font: inherit; color: inherit; background: transparent; border:0; cursor:pointer; }
+.shell { min-height:100vh; background:#000; position:relative; overflow:hidden; }
+.brand { position:fixed; top:28px; left:48px; z-index:10; font-size:13px; font-weight:700; opacity:.54; letter-spacing:.01em; }
+.brand:hover { opacity:.9; }
+.page { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:72px 24px; }
+.dot { width:18px; height:18px; border-radius:999px; background:#fff; margin-bottom:36px; }
+.mark { font-size:17px; letter-spacing:.55em; opacity:.72; margin-bottom:78px; padding-left:.55em; }
+.home-nav { display:flex; flex-direction:column; align-items:center; gap:56px; }
+.home-link { display:block; letter-spacing:.42em; padding-left:.42em; line-height:1; transition: opacity .2s ease, transform .2s ease; }
+.home-link:hover { opacity:1; transform:translateY(-1px); }
+.system-link { font-size:112px; opacity:1; }
+.signal-link { font-size:72px; opacity:.86; }
+.research-link { font-size:28px; opacity:.38; align-self:flex-start; transform:translateX(34px); letter-spacing:.36em; padding-left:.36em; text-transform:none; }
+.research-link:hover { opacity:.72; transform:translate(34px, -1px); }
+.footer-line { position:fixed; bottom:34px; font-size:13px; letter-spacing:.45em; opacity:.28; padding-left:.45em; margin:0; }
+.inner h1 { font-size:88px; font-weight:400; letter-spacing:.22em; padding-left:.22em; margin:0 0 92px; }
+.inner .small-title { font-size:58px; letter-spacing:.18em; padding-left:.18em; margin-bottom:32px; }
+.subline { color:rgba(255,255,255,.58); font-size:18px; margin:0 0 70px; }
+.system-grid { display:grid; grid-template-columns: repeat(2, minmax(260px, 380px)); gap:44px; }
+.tile { min-height:245px; border:1px solid rgba(255,255,255,.14); padding:44px 34px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px; transition:border-color .2s, transform .2s, background .2s; }
+.tile:hover { border-color:rgba(255,255,255,.48); transform:translateY(-2px); background:rgba(255,255,255,.025); }
+.tile-title { font-size:46px; letter-spacing:.28em; padding-left:.28em; }
+.tile-copy { color:rgba(255,255,255,.58); font-size:16px; line-height:1.5; }
+.outline-btn { border:1px solid rgba(255,255,255,.25); padding:16px 28px; letter-spacing:.28em; padding-left:calc(28px + .28em); font-size:13px; display:inline-block; }
+.outline-btn:hover { border-color:rgba(255,255,255,.7); }
+.standalone { margin-top:44px; }
+.narrow { max-width:920px; margin:0 auto; }
+.sublime { font-size:18px; letter-spacing:.25em; padding-left:.25em; margin:0 0 16px; color:rgba(255,255,255,.82); text-transform:uppercase; }
+.component-list { display:flex; flex-direction:column; gap:44px; margin-top:2px; }
+.component-block h2 { font-size:28px; font-weight:400; letter-spacing:.18em; padding-left:.18em; margin:0 0 14px; }
+.component-block p { margin:0; color:rgba(255,255,255,.62); font-size:18px; }
+.closing-line { margin-top:78px; color:rgba(255,255,255,.45); font-size:17px; }
+.link-stack { display:flex; flex-direction:column; gap:25px; font-size:22px; color:rgba(255,255,255,.78); }
+.link-stack button:hover, .text-link:hover { color:#fff; }
+.research-page h1 { font-size:60px; text-transform:none; opacity:.72; }
+.research-copy { max-width:640px; display:flex; flex-direction:column; gap:34px; color:rgba(255,255,255,.58); }
+.research-copy h2 { font-size:20px; font-weight:400; margin:0 0 10px; color:rgba(255,255,255,.7); }
+.research-copy p { margin:0; line-height:1.65; }
+.text-link { margin-top:48px; font-size:20px; color:rgba(255,255,255,.62); }
+.frs-body { color:rgba(255,255,255,.68); font-size:22px; line-height:1.8; }
+.frs-body p { margin:10px 0; }
+@media (max-width: 760px) {
+  .brand { top:20px; left:22px; }
+  .mark { font-size:11px; letter-spacing:.38em; padding-left:.38em; margin-bottom:58px; }
+  .dot { width:14px; height:14px; margin-bottom:26px; }
+  .system-link { font-size:54px; }
+  .signal-link { font-size:38px; }
+  .research-link { font-size:18px; transform:translateX(18px); }
+  .research-link:hover { transform:translate(18px, -1px); }
+  .footer-line { font-size:9px; letter-spacing:.25em; padding-left:.25em; bottom:24px; }
+  .inner h1 { font-size:48px; margin-bottom:62px; }
+  .system-grid { grid-template-columns:1fr; gap:22px; width:100%; }
+  .tile-title { font-size:30px; }
+}
