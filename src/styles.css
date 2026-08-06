@@ -37,9 +37,11 @@ button { font: inherit; color: inherit; background: transparent; border:0; curso
 .link-stack { display:flex; flex-direction:column; gap:25px; font-size:22px; color:rgba(255,255,255,.78); }
 .link-stack button:hover, .text-link:hover { color:#fff; }
 .research-page h1 { font-size:60px; text-transform:none; opacity:.72; }
-.research-copy { max-width:640px; display:flex; flex-direction:column; gap:34px; color:rgba(255,255,255,.58); }
-.research-copy h2 { font-size:20px; font-weight:400; margin:0 0 10px; color:rgba(255,255,255,.7); }
-.research-copy p { margin:0; line-height:1.65; }
+.research-copy { max-width:640px; display:flex; flex-direction:column; gap:56px; color:rgba(255,255,255,.58); }
+.research-branch { display:flex; flex-direction:column; align-items:center; }
+.research-copy h2 { font-size:20px; font-weight:400; letter-spacing:.22em; padding-left:.22em; margin:0 0 12px; color:rgba(255,255,255,.7); text-transform:uppercase; }
+.branch-tagline { margin:0 0 28px; line-height:1.65; font-size:16px; color:rgba(255,255,255,.58); }
+.research-branch .link-stack { font-size:18px; gap:20px; color:rgba(255,255,255,.72); }
 .text-link { margin-top:48px; font-size:20px; color:rgba(255,255,255,.62); }
 .frs-body { color:rgba(255,255,255,.68); font-size:22px; line-height:1.8; }
 .frs-body p { margin:10px 0; }

@@ -9,9 +9,42 @@ const LINKS = {
   personalIG: '',
   youtubeShorts: '',
   rednote: '',
-  substack: '',
   frs: '', // Notion/course/payment link later
 };
+
+// Plug Substack article URLs here when ready.
+const RESEARCH = [
+  {
+    title: 'FOUNDATIONS',
+    tagline: 'Understanding coherent systems.',
+    articles: [
+      { label: 'CDE Axioms', url: '' },
+      { label: 'Constraint-Driven Emergentism', url: '' },
+      { label: 'Before-CDE', url: '' },
+      { label: 'What Constraint-Driven Emergentism Is Not', url: '' },
+      { label: 'Constraint Alignment and the Role of Creativity', url: '' },
+    ],
+  },
+  {
+    title: 'OBSERVER',
+    tagline: 'How reality becomes recognizable.',
+    articles: [
+      { label: 'Blue Eye, Red Eye, and Purple Access', url: '' },
+      { label: 'Order of Fidelity (OOF)', url: '' },
+      { label: 'The Flower That Kept Winning Hide-and-Seek', url: '' },
+      { label: 'What Maintains a Village', url: '' },
+    ],
+  },
+  {
+    title: 'PARTICIPATION',
+    tagline: 'How coherent systems participate once they emerge.',
+    articles: [
+      { label: 'The Wake Principle', url: '' },
+      { label: 'Circle Ray Dot v2', url: '' },
+      { label: 'Pumpkin Pie, Swords, and Participation', url: '' },
+    ],
+  },
+];
 
 function go(url) {
   if (url) window.open(url, '_blank', 'noopener,noreferrer');
@@ -115,16 +148,18 @@ function Research() {
     <h1>research</h1>
     <p className="subline">Not for most people.</p>
     <div className="research-copy">
-      <section>
-        <h2>Before-CDE</h2>
-        <p>Perfection means no contrast, no need, no motion. Motion appears only after difference. Persistence is stability in motion.</p>
-      </section>
-      <section>
-        <h2>CDE fundamentals</h2>
-        <p>Constraint limits possible configurations. Allowance is what remains viable. Coherence is degree of viability within constraint.</p>
-      </section>
+      {RESEARCH.map((branch) => (
+        <section key={branch.title} className="research-branch">
+          <h2>{branch.title}</h2>
+          <p className="branch-tagline">{branch.tagline}</p>
+          <div className="link-stack">
+            {branch.articles.map((article) => (
+              <button key={article.label} onClick={() => go(article.url)}>{article.label}</button>
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
-    <button className="text-link" onClick={() => go(LINKS.substack)}>Substack</button>
   </motion.section>
 }
 
