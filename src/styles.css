@@ -45,6 +45,19 @@ button { font: inherit; color: inherit; background: transparent; border:0; curso
 .text-link { margin-top:48px; font-size:20px; color:rgba(255,255,255,.62); }
 .frs-body { color:rgba(255,255,255,.68); font-size:22px; line-height:1.8; }
 .frs-body p { margin:10px 0; }
+.signal-tree { display:flex; flex-direction:column; align-items:center; }
+.signal-origin { margin-bottom:0; }
+.signal-connectors { position:relative; width:1px; height:1px; margin-top:8px; }
+.signal-line { position:absolute; top:0; left:0; width:1px; height:72px; background:rgba(255,255,255,.22); transform-origin:top center; }
+.signal-line-left { transform:rotate(-45deg); }
+.signal-line-right { transform:rotate(45deg); }
+.signal-branches { display:grid; grid-template-columns:1fr 1fr; gap:80px; margin-top:56px; max-width:640px; }
+.signal-branch { display:flex; flex-direction:column; align-items:center; }
+.signal-branch-title { font-size:13px; font-weight:400; letter-spacing:.28em; padding-left:.28em; margin:0 0 28px; color:rgba(255,255,255,.55); text-transform:uppercase; }
+.signal-branch-link { margin:0; }
+.signal-branch-link:hover { color:#fff; }
+.signal-branch .link-stack { font-size:18px; gap:20px; }
+.signal-branch .link-stack span { color:rgba(255,255,255,.72); }
 @media (max-width: 760px) {
   .brand { top:20px; left:22px; }
   .mark { font-size:11px; letter-spacing:.38em; padding-left:.38em; margin-bottom:58px; }
@@ -57,4 +70,6 @@ button { font: inherit; color: inherit; background: transparent; border:0; curso
   .inner h1 { font-size:48px; margin-bottom:62px; }
   .system-grid { grid-template-columns:1fr; gap:22px; width:100%; }
   .tile-title { font-size:30px; }
+  .signal-branches { grid-template-columns:1fr; gap:48px; }
+  .signal-line { height:48px; }
 }

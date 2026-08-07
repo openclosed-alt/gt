@@ -6,9 +6,10 @@ import './styles.css';
 
 // Plug links here when ready.
 const LINKS = {
-  personalIG: '',
-  youtubeShorts: '',
-  rednote: '',
+  scryd: '',
+  scrydArchive: '',
+  scrydStel: '',
+  gtYoutube: '',
   frs: '', // Notion/course/payment link later
 };
 
@@ -67,6 +68,7 @@ function App() {
       {page === 'signal' && <Signal key="signal" />}
       {page === 'research' && <Research key="research" />}
       {page === 'window' && <WindowKit key="window" />}
+      {page === 'physicals' && <Physicals key="physicals" />}
       {page === 'frs' && <FRS key="frs" />}
     </AnimatePresence>
   </main>
@@ -95,10 +97,10 @@ function System({ setPage }) {
         <span className="tile-copy">Immediate application under real conditions.</span>
         <span className="outline-btn">ENTER FRS</span>
       </button>
-      <button className="tile" onClick={() => setPage('window')}>
-        <span className="tile-title">WINDOW KIT</span>
-        <span className="tile-copy">Built for movement, pressure, and clarity.</span>
-        <span className="outline-btn">ENTER WINDOW KIT</span>
+      <button className="tile" onClick={() => setPage('physicals')}>
+        <span className="tile-title">PHYSICALS</span>
+        <span className="tile-copy">Things that cross into matter.</span>
+        <span className="outline-btn">ENTER PHYSICALS</span>
       </button>
     </div>
   </motion.section>
@@ -118,6 +120,18 @@ function WindowKit() {
   </motion.section>
 }
 
+function Physicals() {
+  return <motion.section className="page inner narrow" {...fade}>
+    <h1 className="small-title">Physicals</h1>
+    <p className="subline">Things that cross into matter.</p>
+    <div className="component-list">
+      <Block title="GT1" copy="A modular window system built for movement, adaptation, and changing conditions." />
+      <Block title="B1" copy="A physical object emerging from the same operating logic." />
+    </div>
+    <p className="closing-line">Matter takes longer. Emerging in progress.</p>
+  </motion.section>
+}
+
 function FRS() {
   return <motion.section className="page inner narrow" {...fade}>
     <h1>FRS</h1>
@@ -131,14 +145,37 @@ function FRS() {
   </motion.section>
 }
 
+function SignalLink({ label, url }) {
+  if (url) return <button onClick={() => go(url)}>{label}</button>;
+  return <span>{label}</span>;
+}
+
 function Signal() {
-  return <motion.section className="page inner" {...fade}>
+  return <motion.section className="page inner signal-page" {...fade}>
     <h1>SIGNAL</h1>
-    <p className="subline">Public-facing surfaces.</p>
-    <div className="link-stack">
-      <button onClick={() => go(LINKS.personalIG)}>Personal IG</button>
-      <button onClick={() => go(LINKS.youtubeShorts)}>YouTube Shorts</button>
-      <button onClick={() => go(LINKS.rednote)}>Rednote</button>
+    <div className="signal-tree">
+      <p className="subline signal-origin">Public-facing surfaces.</p>
+      <div className="signal-connectors" aria-hidden="true">
+        <span className="signal-line signal-line-left" />
+        <span className="signal-line signal-line-right" />
+      </div>
+      <div className="signal-branches">
+        <div className="signal-branch">
+          <h2 className="signal-branch-title">SCRYD SERIES</h2>
+          <div className="link-stack">
+            <SignalLink label="Scryd" url={LINKS.scryd} />
+            <SignalLink label="Scryd Archive" url={LINKS.scrydArchive} />
+            <SignalLink label="Scryd Stel" url={LINKS.scrydStel} />
+          </div>
+        </div>
+        <div className="signal-branch">
+          {LINKS.gtYoutube ? (
+            <button className="signal-branch-title signal-branch-link" onClick={() => go(LINKS.gtYoutube)}>G/T YOUTUBE</button>
+          ) : (
+            <h2 className="signal-branch-title">G/T YOUTUBE</h2>
+          )}
+        </div>
+      </div>
     </div>
   </motion.section>
 }
