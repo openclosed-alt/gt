@@ -36,12 +36,25 @@ button { font: inherit; color: inherit; background: transparent; border:0; curso
 .closing-line { margin-top:78px; color:rgba(255,255,255,.45); font-size:17px; }
 .link-stack { display:flex; flex-direction:column; gap:25px; font-size:22px; color:rgba(255,255,255,.78); }
 .link-stack button:hover, .text-link:hover { color:#fff; }
-.research-page h1 { font-size:60px; text-transform:none; opacity:.72; }
-.research-copy { max-width:640px; display:flex; flex-direction:column; gap:56px; color:rgba(255,255,255,.58); }
-.research-branch { display:flex; flex-direction:column; align-items:center; }
-.research-copy h2 { font-size:20px; font-weight:400; letter-spacing:.22em; padding-left:.22em; margin:0 0 12px; color:rgba(255,255,255,.7); text-transform:uppercase; }
-.branch-tagline { margin:0 0 28px; line-height:1.65; font-size:16px; color:rgba(255,255,255,.58); }
-.research-branch .link-stack { font-size:18px; gap:20px; color:rgba(255,255,255,.72); }
+.research-page { justify-content:flex-start; padding-top:116px; }
+.research-page h1 { font-size:60px; text-transform:none; opacity:.72; margin-bottom:26px; }
+.research-page > .subline { margin-bottom:62px; }
+.research-threads { width:min(1120px, 100%); display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:72px; align-items:start; }
+.research-thread { min-width:0; display:flex; flex-direction:column; align-items:center; }
+.research-doorway { font-size:16px; font-weight:400; letter-spacing:.24em; padding-left:.24em; margin:0 0 12px; color:rgba(255,255,255,.7); text-transform:uppercase; }
+.research-tagline { min-height:48px; max-width:310px; margin:0 0 25px; color:rgba(255,255,255,.42); font-size:14px; line-height:1.65; }
+.research-string { position:relative; width:100%; display:flex; flex-direction:column; align-items:center; }
+.research-string::before { content:""; position:absolute; top:0; bottom:0; left:50%; width:1px; background:rgba(255,255,255,.16); }
+.research-node { position:relative; width:50%; margin-left:50%; display:flex; align-items:center; text-align:left; }
+.research-tick { width:15px; height:1px; flex:0 0 15px; background:rgba(255,255,255,.2); }
+.research-label { display:block; padding:0 0 0 12px; color:rgba(255,255,255,.68); font-size:14px; line-height:1.45; }
+button.research-label { text-align:left; transition:color .2s ease; }
+button.research-label:hover { color:#fff; }
+.research-thread-foundations .research-string { gap:36px; padding:12px 0 38px; }
+.research-thread-observer .research-string { gap:28px; padding:12px 0 30px; }
+.research-thread-participation .research-string { gap:24px; padding:12px 0 24px; }
+.research-node:nth-child(even) { width:50%; margin-left:0; margin-right:50%; flex-direction:row-reverse; text-align:right; }
+.research-node:nth-child(even) .research-label { padding:0 12px 0 0; }
 .text-link { margin-top:48px; font-size:20px; color:rgba(255,255,255,.62); }
 .frs-body { color:rgba(255,255,255,.68); font-size:22px; line-height:1.8; }
 .frs-body p { margin:10px 0; }
@@ -72,4 +85,10 @@ button { font: inherit; color: inherit; background: transparent; border:0; curso
   .tile-title { font-size:30px; }
   .signal-branches { grid-template-columns:1fr; gap:48px; }
   .signal-line { height:48px; }
+  .research-page { padding-top:104px; }
+  .research-page h1 { font-size:48px; margin-bottom:24px; }
+  .research-page > .subline { margin-bottom:52px; }
+  .research-threads { grid-template-columns:1fr; gap:64px; max-width:520px; }
+  .research-tagline { min-height:0; margin-bottom:22px; }
+  .research-string { max-width:430px; }
 }

@@ -10,6 +10,7 @@ const LINKS = {
   scrydArchive: '',
   scrydStel: '',
   gtYoutube: '',
+  houseOfHorror: '',
   frs: '', // Notion/course/payment link later
 };
 
@@ -34,6 +35,7 @@ const RESEARCH = [
       { label: 'Order of Fidelity (OOF)', url: '' },
       { label: 'The Flower That Kept Winning Hide-and-Seek', url: '' },
       { label: 'What Maintains a Village', url: '' },
+      { label: 'What Does a Giraffe See in a Mirror?', url: '' },
     ],
   },
   {
@@ -68,7 +70,7 @@ function App() {
       {page === 'signal' && <Signal key="signal" />}
       {page === 'research' && <Research key="research" />}
       {page === 'window' && <WindowKit key="window" />}
-      {page === 'physicals' && <Physicals key="physicals" />}
+      {page === 'hardware' && <Hardware key="hardware" />}
       {page === 'frs' && <FRS key="frs" />}
     </AnimatePresence>
   </main>
@@ -97,10 +99,10 @@ function System({ setPage }) {
         <span className="tile-copy">Immediate application under real conditions.</span>
         <span className="outline-btn">ENTER FRS</span>
       </button>
-      <button className="tile" onClick={() => setPage('physicals')}>
-        <span className="tile-title">PHYSICALS</span>
+      <button className="tile" onClick={() => setPage('hardware')}>
+        <span className="tile-title">HARDWARE</span>
         <span className="tile-copy">Things that cross into matter.</span>
-        <span className="outline-btn">ENTER PHYSICALS</span>
+        <span className="outline-btn">ENTER HARDWARE</span>
       </button>
     </div>
   </motion.section>
@@ -120,9 +122,9 @@ function WindowKit() {
   </motion.section>
 }
 
-function Physicals() {
+function Hardware() {
   return <motion.section className="page inner narrow" {...fade}>
-    <h1 className="small-title">Physicals</h1>
+    <h1 className="small-title">Hardware</h1>
     <p className="subline">Things that cross into matter.</p>
     <div className="component-list">
       <Block title="GT1" copy="A modular window system built for movement, adaptation, and changing conditions." />
@@ -174,24 +176,38 @@ function Signal() {
           ) : (
             <h2 className="signal-branch-title">G/T YOUTUBE</h2>
           )}
+          <div className="link-stack">
+            <SignalLink label="House of Horror" url={LINKS.houseOfHorror} />
+          </div>
         </div>
       </div>
     </div>
   </motion.section>
 }
 
+function ResearchLink({ label, url }) {
+  if (url) return <button className="research-label" onClick={() => go(url)}>{label}</button>;
+  return <span className="research-label">{label}</span>;
+}
+
 function Research() {
   return <motion.section className="page inner research-page" {...fade}>
     <h1>research</h1>
     <p className="subline">Not for most people.</p>
-    <div className="research-copy">
+    <div className="research-threads">
       {RESEARCH.map((branch) => (
-        <section key={branch.title} className="research-branch">
-          <h2>{branch.title}</h2>
-          <p className="branch-tagline">{branch.tagline}</p>
-          <div className="link-stack">
+        <section
+          key={branch.title}
+          className={`research-thread research-thread-${branch.title.toLowerCase()}`}
+        >
+          <h2 className="research-doorway">{branch.title}</h2>
+          <p className="research-tagline">{branch.tagline}</p>
+          <div className="research-string">
             {branch.articles.map((article) => (
-              <button key={article.label} onClick={() => go(article.url)}>{article.label}</button>
+              <div key={article.label} className="research-node">
+                <span className="research-tick" aria-hidden="true" />
+                <ResearchLink label={article.label} url={article.url} />
+              </div>
             ))}
           </div>
         </section>
