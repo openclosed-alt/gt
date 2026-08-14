@@ -75,8 +75,10 @@ button.research-label:hover { color:#fff; }
 .signal-node button:hover { color:#fff; }
 .signal-secondary { max-width:230px; margin:0; color:rgba(255,255,255,.38); font-size:12px; line-height:1.5; }
 .signal-house-of-horror { margin-top:38px; }
-.shell:has(.stel-page) { background:#f2efe4; }
-.shell:has(.stel-page) .brand { color:#27241f; }
+.stel-threshold { transition:background-color 380ms ease-out; }
+.stel-threshold .brand { transition:color 380ms ease-out; }
+.stel-threshold-active { background:#f2efe4; }
+.stel-threshold-active .brand { color:#27241f; }
 .stel-page { width:min(960px, 100%); margin:0 auto; padding-top:128px; padding-bottom:170px; justify-content:flex-start; color:#27241f; }
 .stel-header { display:flex; flex-direction:column; align-items:center; }
 .stel-page h1 { margin-bottom:36px; font-size:64px; }
@@ -128,4 +130,8 @@ button.stel-exit:hover .stel-exit-title { color:#11100e; }
   .stel-ochiai pre { font-size:12px; line-height:1.7; }
   .stel-exits { margin-top:190px; grid-template-columns:1fr; gap:72px; }
   .stel-exit:last-child { align-items:flex-start; text-align:left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stel-threshold,
+  .stel-threshold .brand { transition-duration:1ms; }
 }

@@ -120,7 +120,7 @@ const fade = {
 
 function App() {
   const [page, setPage] = useState('home');
-  return <main className="shell">
+  return <main className={`shell stel-threshold${page === 'stel' ? ' stel-threshold-active' : ''}`}>
     <button className="brand" onClick={() => setPage('home')}>gather / transform</button>
     <AnimatePresence mode="wait">
       {page === 'home' && <Home key="home" setPage={setPage} />}
