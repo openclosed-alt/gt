@@ -49,6 +49,64 @@ const RESEARCH = [
   },
 ];
 
+const STEL_STANZAS = [
+  ['river appearing too early in the walk', 'cold movement splitting the earth quietly'],
+  ['first instinct', 'straight line', 'cross here', 'force meaning into water'],
+  ['current carrying broken sky pieces downstream', 'branches rotating slowly in eddies like unfinished decisions'],
+  ['then slight glance rightward', 'barely even a decision', 'more like the body continuing before thought catches up'],
+  ['grass flattening in a curve', 'stones already remembering feet', 'the river narrowing somewhere beyond direct attention'],
+  ['nothing solved', 'nothing conquered', 'water still speaking in its own language'],
+  ['just trajectory loosening enough to remain alive'],
+  ['f-line bending around unnecessary collision', 's-line reforming afterward as if it was always obvious'],
+  ['the strange embarrassment of realizing', 'the obstacle was partially made from the angle you arrived with'],
+  ['small detour', 'small shift in horizon', 'suddenly continuity returns to the world'],
+  ['trees opening', 'shoreline softening', 'current no longer opponent-shaped'],
+  ['motion keeping itself intact through slight reorientation', 'through not worshipping the first visible barrier'],
+  ['river remaining river', 'walker remaining walker'],
+  ['path quietly becoming possible between them'],
+];
+
+const OCHIAI_ARTIFACT = [
+  '~~~~~          ⟍',
+  '∿∿∿∿∿           ⟍___',
+  '                        □',
+  '                         ⟍',
+  '                          ⟍',
+  '≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈',
+  '',
+  'Δ',
+  ' ╲',
+  '  ╲',
+  '   •~~~~',
+  '      ~~~~~',
+  '        ╲',
+  '         □',
+  '          ╲',
+  '           →',
+  '',
+  '~~~~~|~~~~~|~~~~~',
+  '      ╲',
+  '       ╲',
+  '        □',
+  '       ╱',
+  '     ╱',
+  '_____∿_____∿_____',
+  '',
+  '•',
+  ' ~~~~',
+  '   ~~~~~~',
+  '      ~~~~~',
+  '        ⟍',
+  '         □',
+  '        ⟋',
+  '∿∿∿∿∿∿∿∿∿∿∿∿',
+].join('\n');
+
+const STEL_DESTINATIONS = [
+  { title: 'BLOOD ON THE LEAVES', type: 'novel', url: '' },
+  { title: 'AUTOSAVE', type: 'music album', url: '' },
+];
+
 function go(url) {
   if (url) window.open(url, '_blank', 'noopener,noreferrer');
 }
@@ -67,7 +125,8 @@ function App() {
     <AnimatePresence mode="wait">
       {page === 'home' && <Home key="home" setPage={setPage} />}
       {page === 'system' && <System key="system" setPage={setPage} />}
-      {page === 'signal' && <Signal key="signal" />}
+      {page === 'signal' && <Signal key="signal" setPage={setPage} />}
+      {page === 'stel' && <ScrydStel key="stel" />}
       {page === 'research' && <Research key="research" />}
       {page === 'window' && <WindowKit key="window" />}
       {page === 'hardware' && <Hardware key="hardware" />}
@@ -147,12 +206,13 @@ function FRS() {
   </motion.section>
 }
 
-function SignalLink({ label, url }) {
+function SignalLink({ label, url, onSelect }) {
+  if (onSelect) return <button onClick={onSelect}>{label}</button>;
   if (url) return <button onClick={() => go(url)}>{label}</button>;
   return <span>{label}</span>;
 }
 
-function Signal() {
+function Signal({ setPage }) {
   return <motion.section className="page inner signal-page" {...fade}>
     <h1>SIGNAL</h1>
     <div className="signal-tree">
@@ -168,7 +228,7 @@ function Signal() {
             <SignalLink label="Scryd" url={LINKS.scryd} />
             <SignalLink label="Scryd Archive" url={LINKS.scrydArchive} />
             <div className="signal-node">
-              <SignalLink label="Scryd Stel" url={LINKS.scrydStel} />
+              <SignalLink label="Scryd Stel" onSelect={() => setPage('stel')} />
               <p className="signal-secondary">Music and authored expression.</p>
             </div>
           </div>
@@ -185,6 +245,51 @@ function Signal() {
         </div>
       </div>
     </div>
+  </motion.section>
+}
+
+function StelDestination({ title, type, url }) {
+  const content = <><span className="stel-exit-title">{title}</span><span className="stel-exit-type">{type}</span></>;
+  if (url) return <button className="stel-exit" onClick={() => go(url)}>{content}</button>;
+  return <div className="stel-exit">{content}</div>;
+}
+
+function ScrydStel() {
+  return <motion.section className="page inner stel-page" {...fade}>
+    <header className="stel-header">
+      <h1>SCRYD STEL</h1>
+      <p className="stel-series">TWIN ARTIFACT</p>
+      <div className="stel-artifact-heading">
+        <p>First artifact:</p>
+        <h2 id="overflow-title">Overflow</h2>
+      </div>
+    </header>
+
+    <article className="stel-poem" aria-labelledby="overflow-title">
+      {STEL_STANZAS.map((stanza, stanzaIndex) => (
+        <p key={stanzaIndex}>
+          {stanza.map((line, lineIndex) => (
+            <React.Fragment key={line}>
+              {line}{lineIndex < stanza.length - 1 && <br />}
+            </React.Fragment>
+          ))}
+        </p>
+      ))}
+    </article>
+
+    <section className="stel-ochiai" aria-labelledby="ochiai-title">
+      <h2 id="ochiai-title">Twin Artifact: (Ochiai)</h2>
+      <p>Below language, discarded heat.</p>
+      <div className="stel-ochiai-scroll">
+        <pre>{OCHIAI_ARTIFACT}</pre>
+      </div>
+    </section>
+
+    <section className="stel-exits" aria-label="Emerging Scryd Stel destinations">
+      {STEL_DESTINATIONS.map((destination) => (
+        <StelDestination key={destination.title} {...destination} />
+      ))}
+    </section>
   </motion.section>
 }
 

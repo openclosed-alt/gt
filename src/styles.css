@@ -75,6 +75,27 @@ button.research-label:hover { color:#fff; }
 .signal-node button:hover { color:#fff; }
 .signal-secondary { max-width:230px; margin:0; color:rgba(255,255,255,.38); font-size:12px; line-height:1.5; }
 .signal-house-of-horror { margin-top:38px; }
+.stel-page { width:min(960px, 100%); margin:0 auto; padding-top:128px; padding-bottom:170px; justify-content:flex-start; }
+.stel-header { display:flex; flex-direction:column; align-items:center; }
+.stel-page h1 { margin-bottom:36px; font-size:64px; }
+.stel-series { margin:0; color:rgba(255,255,255,.48); font-size:13px; letter-spacing:.34em; padding-left:.34em; }
+.stel-artifact-heading { margin-top:84px; }
+.stel-artifact-heading p { margin:0 0 12px; color:rgba(255,255,255,.42); font-size:14px; }
+.stel-artifact-heading h2 { margin:0; font-size:28px; font-weight:400; letter-spacing:.16em; padding-left:.16em; }
+.stel-poem { width:min(590px, 100%); margin-top:104px; color:rgba(255,255,255,.72); font-size:17px; line-height:1.8; text-align:left; }
+.stel-poem p { margin:0 0 38px; }
+.stel-poem p:last-child { margin-bottom:0; }
+.stel-ochiai { width:min(620px, 100%); margin-top:250px; text-align:left; }
+.stel-ochiai h2 { margin:0 0 13px; font-size:18px; font-weight:400; letter-spacing:.08em; }
+.stel-ochiai > p { margin:0; color:rgba(255,255,255,.4); font-size:14px; }
+.stel-ochiai-scroll { max-width:100%; margin-top:76px; overflow-x:auto; }
+.stel-ochiai pre { width:max-content; min-width:100%; margin:0; color:rgba(255,255,255,.7); font-family:"SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size:15px; line-height:1.65; text-align:left; }
+.stel-exits { width:min(760px, 100%); margin-top:270px; display:grid; grid-template-columns:1fr 1fr; gap:80px; }
+.stel-exit { display:flex; flex-direction:column; align-items:flex-start; gap:9px; padding:0; text-align:left; }
+.stel-exit:last-child { align-items:flex-end; text-align:right; }
+.stel-exit-title { color:rgba(255,255,255,.68); font-size:14px; letter-spacing:.2em; padding-left:.2em; }
+.stel-exit-type { color:rgba(255,255,255,.34); font-size:12px; }
+button.stel-exit:hover .stel-exit-title { color:#fff; }
 @media (max-width: 760px) {
   .brand { top:20px; left:22px; }
   .mark { font-size:11px; letter-spacing:.38em; padding-left:.38em; margin-bottom:58px; }
@@ -95,4 +116,14 @@ button.research-label:hover { color:#fff; }
   .research-threads { grid-template-columns:1fr; gap:64px; max-width:520px; }
   .research-tagline { min-height:0; margin-bottom:22px; }
   .research-string { max-width:430px; }
+  .stel-page { padding:108px 22px 120px; }
+  .stel-page h1 { margin-bottom:30px; font-size:42px; letter-spacing:.18em; padding-left:.18em; }
+  .stel-artifact-heading { margin-top:68px; }
+  .stel-poem { margin-top:84px; font-size:15px; line-height:1.8; }
+  .stel-poem p { margin-bottom:34px; }
+  .stel-ochiai { margin-top:170px; }
+  .stel-ochiai-scroll { margin-top:58px; }
+  .stel-ochiai pre { font-size:12px; line-height:1.7; }
+  .stel-exits { margin-top:190px; grid-template-columns:1fr; gap:72px; }
+  .stel-exit:last-child { align-items:flex-start; text-align:left; }
 }
