@@ -71,6 +71,10 @@ button.research-label:hover { color:#fff; }
 .signal-branch-link:hover { color:#fff; }
 .signal-branch .link-stack { font-size:18px; gap:20px; }
 .signal-branch .link-stack span { color:rgba(255,255,255,.72); }
+.signal-node { display:flex; flex-direction:column; align-items:center; gap:7px; color:rgba(255,255,255,.78); font-size:18px; }
+.signal-node button:hover { color:#fff; }
+.signal-secondary { max-width:230px; margin:0; color:rgba(255,255,255,.38); font-size:12px; line-height:1.5; }
+.signal-house-of-horror { margin-top:38px; }
 @media (max-width: 760px) {
   .brand { top:20px; left:22px; }
   .mark { font-size:11px; letter-spacing:.38em; padding-left:.38em; margin-bottom:58px; }

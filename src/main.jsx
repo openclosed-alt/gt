@@ -6,10 +6,10 @@ import './styles.css';
 
 // Plug links here when ready.
 const LINKS = {
-  scryd: '',
-  scrydArchive: '',
+  scryd: 'https://www.instagram.com/s.cryd?igsh=MW1zOGFhemFsNjhrcQ%3D%3D&utm_source=qr',
+  scrydArchive: 'https://www.tiktok.com/@scryd.archive?_r=1&_t=ZP-98rV71Dk9Z0',
   scrydStel: '',
-  gtYoutube: '',
+  gtYoutube: 'https://youtube.com/@gathertransform?si=XKJIVvHttkCCHanJ',
   houseOfHorror: '',
   frs: '', // Notion/course/payment link later
 };
@@ -167,17 +167,20 @@ function Signal() {
           <div className="link-stack">
             <SignalLink label="Scryd" url={LINKS.scryd} />
             <SignalLink label="Scryd Archive" url={LINKS.scrydArchive} />
-            <SignalLink label="Scryd Stel" url={LINKS.scrydStel} />
+            <div className="signal-node">
+              <SignalLink label="Scryd Stel" url={LINKS.scrydStel} />
+              <p className="signal-secondary">Music and authored expression.</p>
+            </div>
           </div>
         </div>
         <div className="signal-branch">
-          {LINKS.gtYoutube ? (
-            <button className="signal-branch-title signal-branch-link" onClick={() => go(LINKS.gtYoutube)}>G/T YOUTUBE</button>
-          ) : (
-            <h2 className="signal-branch-title">G/T YOUTUBE</h2>
-          )}
-          <div className="link-stack">
+          <h2 className="signal-branch-title">G/T YouTube</h2>
+          <div className="signal-node signal-destination">
+            <SignalLink label="Gather / Transform" url={LINKS.gtYoutube} />
+          </div>
+          <div className="signal-node signal-house-of-horror">
             <SignalLink label="House of Horror" url={LINKS.houseOfHorror} />
+            <p className="signal-secondary">Experimental screen and visual works.</p>
           </div>
         </div>
       </div>
