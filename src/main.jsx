@@ -11,7 +11,7 @@ const LINKS = {
   scrydStel: '',
   gtYoutube: 'https://youtube.com/@gathertransform?si=XKJIVvHttkCCHanJ',
   houseOfHorror: '',
-  frs: '', // Notion/course/payment link later
+  frs: 'https://frs-fork-resolution.aaron-2620.chatgpt.site',
 };
 
 // Plug Substack article URLs here when ready.
@@ -107,8 +107,64 @@ const STEL_DESTINATIONS = [
   { title: 'AUTOSAVE', type: 'music album', url: '' },
 ];
 
+const CSL_SEQUENCE = [
+  'Reference',
+  'Change',
+  'Observe Deviation',
+  'Adjust Constraint',
+  'Re-test',
+  'Repeat',
+];
+
+const CSL_TRACE_FIELDS = [
+  { key: 'reference', label: 'REFERENCE', prompt: 'What relation are you maintaining?', example: 'Example: Preserve a response verbatim.' },
+  { key: 'change', label: 'CHANGE', prompt: 'What changed?', example: 'Example: New context is introduced.' },
+  { key: 'deviation', label: 'DEVIATION', prompt: 'What difference matters relative to the reference?', example: 'Example: Extra interpretation begins appearing.' },
+  { key: 'constraint', label: 'CONSTRAINT', prompt: 'What constraint may be producing or permitting that trajectory?', example: 'Example: The instruction permits additional expression.' },
+  { key: 'adjustment', label: 'ADJUSTMENT', prompt: 'What will you tighten, loosen, replace, remove, alter, or restructure?', example: 'Example: Restrict output to the requested text only.' },
+  { key: 'retest', label: 'RE-TEST', prompt: 'Under the changed condition, does the maintained relation now hold?', example: 'Example: The response remains verbatim under the changed condition.' },
+];
+
+const CSL_DISPOSITIONS = [
+  { value: 'stable', label: 'Stable at present evidence boundary' },
+  { value: 'repeat', label: 'Deviation remains — repeat' },
+  { value: 'reconsider', label: 'Reference requires reconsideration' },
+];
+
+const OTHERS_APPLICATIONS = [
+  { name: 'PUBLIC GINSENG', type: 'Public application' },
+  { name: 'FICARIA', type: 'Application' },
+  { name: 'SOPHIA', type: 'Application' },
+  { name: '1000 LIVES', type: 'Application' },
+];
+
+const EMPTY_CSL_TRACE = CSL_TRACE_FIELDS.reduce(
+  (trace, field) => ({ ...trace, [field.key]: '' }),
+  { disposition: '' },
+);
+
 function go(url) {
   if (url) window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+function getInitialPage() {
+  const surface = new URLSearchParams(window.location.search).get('surface');
+  if (surface === 'interior') return 'home';
+  if (surface === 'others') return 'others';
+  return 'atlas';
+}
+
+function enterFRS() {
+  const frs = new URL(LINKS.frs);
+  const atlas = new URL(window.location.pathname, window.location.origin);
+  const interior = new URL(atlas);
+  const others = new URL(atlas);
+
+  interior.searchParams.set('surface', 'interior');
+  others.searchParams.set('surface', 'others');
+  frs.searchParams.set('atlas_return', interior.toString());
+  frs.searchParams.set('atlas_others', others.toString());
+  window.location.assign(frs.toString());
 }
 
 const fade = {
@@ -119,20 +175,30 @@ const fade = {
 };
 
 function App() {
-  const [page, setPage] = useState('home');
+  const [page, setPage] = useState(getInitialPage);
   return <main className={`shell stel-threshold${page === 'stel' ? ' stel-threshold-active' : ''}`}>
-    <button className="brand" onClick={() => setPage('home')}>gather / transform</button>
+    {page !== 'atlas' && <button className="brand" onClick={() => setPage('home')}>gather / transform</button>}
     <AnimatePresence mode="wait">
+      {page === 'atlas' && <Atlas key="atlas" onEnter={() => setPage('home')} />}
       {page === 'home' && <Home key="home" setPage={setPage} />}
-      {page === 'system' && <System key="system" setPage={setPage} />}
+      {page === 'system' && <System key="system" setPage={setPage} onEnterFRS={enterFRS} />}
+      {page === 'others' && <Others key="others" setPage={setPage} onEnterFRS={enterFRS} />}
       {page === 'signal' && <Signal key="signal" setPage={setPage} />}
       {page === 'stel' && <ScrydStel key="stel" />}
       {page === 'research' && <Research key="research" />}
       {page === 'window' && <WindowKit key="window" />}
       {page === 'hardware' && <Hardware key="hardware" />}
-      {page === 'frs' && <FRS key="frs" />}
+      {page === 'csl' && <CSL key="csl" />}
     </AnimatePresence>
   </main>
+}
+
+function Atlas({ onEnter }) {
+  return <motion.section className="page atlas-threshold" {...fade}>
+    <span className="atlas-threshold-brand">gather / transform</span>
+    <h1>ATLAS</h1>
+    <button className="atlas-enter" onClick={onEnter}>ENTER →</button>
+  </motion.section>
 }
 
 function Home({ setPage }) {
@@ -143,17 +209,65 @@ function Home({ setPage }) {
       <button className="home-link system-link" onClick={() => setPage('system')}>SYSTEM</button>
       <button className="home-link signal-link" onClick={() => setPage('signal')}>SIGNAL</button>
       <button className="home-link research-link" onClick={() => setPage('research')}>research</button>
+      <button className="home-link others-link" onClick={() => setPage('others')}>OTHERS</button>
     </nav>
     <p className="footer-line">CENTRAL GRAVITY. LOW FORCE. SELF-SELECTION.</p>
   </motion.section>
 }
 
-function System({ setPage }) {
+function Others({ setPage, onEnterFRS }) {
+  return <motion.section className="page inner others-page" {...fade}>
+    <button className="others-return" onClick={() => setPage('home')}>← RETURN TO G/T</button>
+    <header className="others-header">
+      <h1>OTHERS</h1>
+      <p>Other usable entries.</p>
+    </header>
+
+    <section className="others-section" aria-labelledby="others-systems">
+      <h2 id="others-systems">SYSTEMS</h2>
+      <div className="others-list">
+        <button className="others-entry" onClick={onEnterFRS}>
+          <span className="others-entry-code">FRS</span>
+          <span className="others-entry-description">
+            <strong>Fork Resolution System</strong>
+            <small>Resolve a fork without surrendering the choice.</small>
+          </span>
+          <span className="others-entry-action">ENTER →</span>
+        </button>
+        <button className="others-entry" onClick={() => setPage('csl')}>
+          <span className="others-entry-code">CSL</span>
+          <span className="others-entry-description">
+            <strong>Coherence Stabilization Loop</strong>
+            <small>Detect drift before failure.</small>
+          </span>
+          <span className="others-entry-action">ENTER →</span>
+        </button>
+      </div>
+    </section>
+
+    <section className="others-section others-applications" aria-labelledby="others-applications">
+      <h2 id="others-applications">APPLICATIONS</h2>
+      <div className="others-list">
+        {OTHERS_APPLICATIONS.map((application) => (
+          <div className="others-entry others-entry-inactive" key={application.name}>
+            <span className="others-entry-description">
+              <strong>{application.name}</strong>
+              <small>{application.type}</small>
+            </span>
+            <span className="others-entry-action" aria-disabled="true">ENTER →</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  </motion.section>
+}
+
+function System({ setPage, onEnterFRS }) {
   return <motion.section className="page inner" {...fade}>
     <h1>SYSTEM</h1>
     <p className="subline">A usable entry.</p>
     <div className="system-grid">
-      <button className="tile" onClick={() => setPage('frs')}>
+      <button className="tile" onClick={onEnterFRS}>
         <span className="tile-title">FRS</span>
         <span className="tile-copy">Immediate application under real conditions.</span>
         <span className="outline-btn">ENTER FRS</span>
@@ -193,16 +307,125 @@ function Hardware() {
   </motion.section>
 }
 
-function FRS() {
-  return <motion.section className="page inner narrow" {...fade}>
-    <h1>FRS</h1>
-    <p className="subline">Immediate application under real conditions.</p>
-    <div className="frs-body">
-      <p>Notice the pressure.</p>
-      <p>Reduce what is unnecessary.</p>
-      <p>Act only where action restores options.</p>
-    </div>
-    <button className="outline-btn standalone" onClick={() => go(LINKS.frs)}>ENTER FRS</button>
+function CSLTraceField({ field, value, onChange }) {
+  const id = `csl-${field.key}`;
+  return <div className="csl-trace-field">
+    <label htmlFor={id}>{field.label}</label>
+    <p>{field.prompt}</p>
+    <textarea
+      id={id}
+      name={field.key}
+      value={value}
+      placeholder={field.example}
+      onChange={(event) => onChange(field.key, event.target.value)}
+      rows="3"
+    />
+  </div>
+}
+
+function CSL() {
+  const [traceOpen, setTraceOpen] = useState(false);
+  const [trace, setTrace] = useState(EMPTY_CSL_TRACE);
+  const [clearPending, setClearPending] = useState(false);
+  const hasTraceContent = CSL_TRACE_FIELDS.some((field) => trace[field.key].trim()) || trace.disposition;
+
+  function updateTrace(key, value) {
+    setClearPending(false);
+    setTrace((current) => ({
+      ...current,
+      [key]: value,
+      ...(key === 'retest' && !value.trim() ? { disposition: '' } : {}),
+    }));
+  }
+
+  function clearTrace() {
+    setTrace(EMPTY_CSL_TRACE);
+    setClearPending(false);
+  }
+
+  function requestClear() {
+    if (hasTraceContent) setClearPending(true);
+    else clearTrace();
+  }
+
+  return <motion.section className="page inner csl-page" {...fade}>
+    <header className="csl-header">
+      <p className="csl-kicker">CORE SYSTEM</p>
+      <h1>CSL</h1>
+      <p className="csl-name">Coherence Stabilization Loop</p>
+      <p className="csl-lead">Detect drift before failure.</p>
+    </header>
+
+    {!traceOpen ? <div className="csl-overview">
+      <p className="csl-definition">The Coherence Stabilization Loop is a recurrent process in which deviation from a maintained reference is observed, Constraint is adjusted, and the relation is re-tested.</p>
+
+      <ol className="csl-sequence" aria-label="Canonical CSL sequence">
+        {CSL_SEQUENCE.map((step) => <li key={step}>{step}</li>)}
+      </ol>
+
+      <div className="csl-substance">
+        <p>A reference is the relation, structure, signal, criterion, semantic boundary, output characteristic, or behavior the current operation is intentionally trying to maintain. It is not assumed to be universally correct, optimal, permanent, or indefinitely viable.</p>
+        <p>Deviation is difference relative to that reference which matters to the current operation. It does not automatically mean failure, collapse, defect, or incoherence.</p>
+        <p>Constraint may be tightened, loosened, replaced, removed, altered, or restructured. Narrower Allowance is not inherently better, and adjustment does not prove stabilization.</p>
+        <p>CSL is an operator architecture. The operator need not be human.</p>
+      </div>
+
+      <blockquote className="csl-principle">The maintained structure may not be wrong. The Constraint around it may be allowing the wrong trajectories.</blockquote>
+      <button className="outline-btn csl-enter" onClick={() => setTraceOpen(true)}>ENTER CSL TRACE</button>
+    </div> : <form className="csl-trace" onSubmit={(event) => event.preventDefault()}>
+      <div className="csl-trace-heading">
+        <div>
+          <p className="csl-trace-label">CSL TRACE</p>
+          <p>Work the present stabilization problem against its maintained reference.</p>
+        </div>
+        <button type="button" className="csl-text-button" onClick={() => setTraceOpen(false)}>RETURN TO CHAMBER</button>
+      </div>
+
+      {CSL_TRACE_FIELDS.map((field) => (
+        <CSLTraceField
+          key={field.key}
+          field={field}
+          value={trace[field.key]}
+          onChange={updateTrace}
+        />
+      ))}
+
+      <fieldset className="csl-disposition">
+        <legend>DISPOSITION</legend>
+        <p>Select only after re-testing under the changed condition.</p>
+        <div className="csl-disposition-options">
+          {CSL_DISPOSITIONS.map((option) => (
+            <label key={option.value}>
+              <input
+                type="radio"
+                name="disposition"
+                value={option.value}
+                checked={trace.disposition === option.value}
+                disabled={!trace.retest.trim()}
+                onChange={(event) => updateTrace('disposition', event.target.value)}
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      {trace.disposition && <p className="csl-disposition-note" aria-live="polite">
+        {trace.disposition === 'stable' && 'Sufficient stabilization at the present evidence boundary. This is not a guarantee of preservation.'}
+        {trace.disposition === 'repeat' && 'Deviation remains. Adjust Constraint, re-test, and repeat the loop.'}
+        {trace.disposition === 'reconsider' && 'The maintained reference itself now requires reconsideration.'}
+      </p>}
+
+      <div className="csl-clear">
+        <button type="button" className="csl-text-button" onClick={requestClear}>CLEAR TRACE</button>
+        {clearPending && <div className="csl-clear-confirm" role="group" aria-label="Confirm clearing this trace">
+          <span>CLEAR THIS TRACE?</span>
+          <button type="button" onClick={clearTrace}>CONFIRM</button>
+          <span aria-hidden="true">/</span>
+          <button type="button" onClick={() => setClearPending(false)}>KEEP</button>
+        </div>}
+      </div>
+    </form>}
   </motion.section>
 }
 
