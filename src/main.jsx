@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { motion, AnimatePresence } from 'framer-motion';
 import './styles.css';
+import { CSL_LANGUAGES, DEFAULT_CSL_LANGUAGE, getCSLCopy, getCSLLanguage, selectCSLLanguage } from './csl-language';
 
 // Plug links here when ready.
 const LINKS = {
@@ -116,36 +117,19 @@ const CSL_SEQUENCE = [
   'Repeat',
 ];
 
-const CSL_RECOGNITION = [
-  { prompt: 'What are you trying to keep stable?', canonical: 'REFERENCE' },
-  { prompt: 'What changed?', canonical: 'CHANGE' },
-  { prompt: 'What started drifting?', canonical: 'DEVIATION' },
-  { prompt: 'What allowed that drift?', canonical: 'CONSTRAINT' },
-  { prompt: 'What will you change around it?', canonical: 'ADJUSTMENT' },
-  { prompt: 'Test it again.', canonical: 'RE-TEST' },
-];
-
-const CSL_GUARDRAILS = [
-  'Drift is not failure.',
-  'The thing drifting may not be the thing that is wrong.',
-  'Tighter is not always better.',
-  'Adjustment must be re-tested.',
-  'Sometimes the reference itself should be reconsidered.',
-];
-
 const CSL_TRACE_FIELDS = [
-  { key: 'reference', label: 'REFERENCE', prompt: 'What relation are you maintaining?', example: 'Example: Preserve a response verbatim.' },
-  { key: 'change', label: 'CHANGE', prompt: 'What changed?', example: 'Example: New context is introduced.' },
-  { key: 'deviation', label: 'DEVIATION', prompt: 'What difference matters relative to the reference?', example: 'Example: Extra interpretation begins appearing.' },
-  { key: 'constraint', label: 'CONSTRAINT', prompt: 'What constraint may be producing or permitting that trajectory?', example: 'Example: The instruction permits additional expression.' },
-  { key: 'adjustment', label: 'ADJUSTMENT', prompt: 'What will you tighten, loosen, replace, remove, alter, or restructure?', example: 'Example: Restrict output to the requested text only.' },
-  { key: 'retest', label: 'RE-TEST', prompt: 'Under the changed condition, does the maintained relation now hold?', example: 'Example: The response remains verbatim under the changed condition.' },
+  { key: 'reference', label: 'REFERENCE' },
+  { key: 'change', label: 'CHANGE' },
+  { key: 'deviation', label: 'DEVIATION' },
+  { key: 'constraint', label: 'CONSTRAINT' },
+  { key: 'adjustment', label: 'ADJUSTMENT' },
+  { key: 'retest', label: 'RE-TEST' },
 ];
 
 const CSL_DISPOSITIONS = [
-  { value: 'stable', label: 'Stable at present evidence boundary' },
-  { value: 'repeat', label: 'Deviation remains — repeat' },
-  { value: 'reconsider', label: 'Reference requires reconsideration' },
+  { value: 'stable' },
+  { value: 'repeat' },
+  { value: 'reconsider' },
 ];
 
 const OTHERS_APPLICATIONS = [
@@ -344,7 +328,19 @@ function CSL() {
   const [traceOpen, setTraceOpen] = useState(false);
   const [trace, setTrace] = useState(EMPTY_CSL_TRACE);
   const [clearPending, setClearPending] = useState(false);
+  const [language, setLanguage] = useState(DEFAULT_CSL_LANGUAGE);
+  const copy = getCSLCopy(language);
+  const traceFields = CSL_TRACE_FIELDS.map((field) => ({
+    ...field,
+    prompt: copy.prompts[field.key],
+    example: copy.examples[field.key],
+  }));
   const hasTraceContent = CSL_TRACE_FIELDS.some((field) => trace[field.key].trim()) || trace.disposition;
+
+  function changeLanguage(code) {
+    const selection = selectCSLLanguage(code, trace);
+    setLanguage(selection.language);
+  }
 
   function updateTrace(key, value) {
     setClearPending(false);
@@ -365,54 +361,57 @@ function CSL() {
     else clearTrace();
   }
 
-  return <motion.section className="page inner csl-page" {...fade}>
+  return <motion.section className="page inner csl-page" lang={getCSLLanguage(language).htmlLang} {...fade}>
+    <label className="csl-language-selector">
+      <span className="csl-visually-hidden">{copy.language}</span>
+      <select aria-label={copy.language} value={language} onChange={(event) => changeLanguage(event.target.value)}>
+        {CSL_LANGUAGES.map((option) => <option value={option.code} key={option.code}>{option.label}</option>)}
+      </select>
+    </label>
     <header className="csl-header">
-      <p className="csl-kicker">CORE SYSTEM</p>
+      <p className="csl-kicker">{copy.coreSystem}</p>
       <h1>CSL</h1>
-      <p className="csl-name">Coherence Stabilization Loop</p>
-      <p className="csl-lead">Detect drift before failure.</p>
+      <p className="csl-name">{copy.name}</p>
+      <p className="csl-lead">{copy.lead}</p>
     </header>
 
     {!traceOpen ? <div className="csl-overview">
-      <ol className="csl-recognition" aria-label="CSL in familiar language">
-        {CSL_RECOGNITION.map((step) => <li key={step.canonical}>
-          <span className="csl-recognition-prompt">{step.prompt}</span>
-          <span className="csl-recognition-canonical"><small>CANONICAL</small>{step.canonical}</span>
+      <ol className="csl-recognition" aria-label={copy.name}>
+        {copy.recognition.map((prompt, index) => <li key={CSL_TRACE_FIELDS[index].key}>
+          <span className="csl-recognition-prompt">{prompt}</span>
+          <span className="csl-recognition-canonical"><small>{copy.canonicalLabel}</small>{CSL_TRACE_FIELDS[index].label}</span>
         </li>)}
       </ol>
 
-      <p className="csl-definition">The Coherence Stabilization Loop is a recurrent process in which deviation from a maintained reference is observed, Constraint is adjusted, and the relation is re-tested.</p>
+      <p className="csl-definition">{copy.definition}</p>
 
-      <ol className="csl-sequence" aria-label="Canonical CSL sequence">
+      <ol className="csl-sequence" aria-label={`${copy.name} — CSL`}>
         {CSL_SEQUENCE.map((step) => <li key={step}>{step}</li>)}
       </ol>
 
       <div className="csl-substance">
-        <p>A reference is the relation, structure, signal, criterion, semantic boundary, output characteristic, or behavior the current operation is intentionally trying to maintain. It is not assumed to be universally correct, optimal, permanent, or indefinitely viable.</p>
-        <p>Deviation is difference relative to that reference which matters to the current operation. It does not automatically mean failure, collapse, defect, or incoherence.</p>
-        <p>Constraint may be tightened, loosened, replaced, removed, altered, or restructured. Narrower Allowance is not inherently better, and adjustment does not prove stabilization.</p>
-        <p>CSL is an operator architecture. The operator need not be human.</p>
+        {copy.substance.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       </div>
 
       <section className="csl-guardrails" aria-labelledby="csl-guardrails-title">
-        <h2 id="csl-guardrails-title">OPERATING DISTINCTIONS</h2>
+        <h2 id="csl-guardrails-title">{copy.distinctionsTitle}</h2>
         <ul>
-          {CSL_GUARDRAILS.map((guardrail) => <li key={guardrail}>{guardrail}</li>)}
+          {copy.guardrails.map((guardrail) => <li key={guardrail}>{guardrail}</li>)}
         </ul>
       </section>
 
-      <blockquote className="csl-principle">The maintained structure may not be wrong. The Constraint around it may be allowing the wrong trajectories.</blockquote>
-      <button className="outline-btn csl-enter" onClick={() => setTraceOpen(true)}>ENTER CSL TRACE</button>
+      <blockquote className="csl-principle">{copy.principle}</blockquote>
+      <button className="outline-btn csl-enter" onClick={() => setTraceOpen(true)}>{copy.enterTrace}</button>
     </div> : <form className="csl-trace" onSubmit={(event) => event.preventDefault()}>
       <div className="csl-trace-heading">
         <div>
-          <p className="csl-trace-label">CSL TRACE</p>
-          <p>Work the present stabilization problem against its maintained reference.</p>
+          <p className="csl-trace-label">{copy.traceLabel}</p>
+          <p>{copy.traceIntro}</p>
         </div>
-        <button type="button" className="csl-text-button" onClick={() => setTraceOpen(false)}>RETURN TO CHAMBER</button>
+        <button type="button" className="csl-text-button" onClick={() => setTraceOpen(false)}>{copy.returnChamber}</button>
       </div>
 
-      {CSL_TRACE_FIELDS.map((field) => (
+      {traceFields.map((field) => (
         <CSLTraceField
           key={field.key}
           field={field}
@@ -422,8 +421,8 @@ function CSL() {
       ))}
 
       <fieldset className="csl-disposition">
-        <legend>DISPOSITION</legend>
-        <p>Select only after re-testing under the changed condition.</p>
+        <legend>{copy.disposition}</legend>
+        <p>{copy.dispositionPrompt}</p>
         <div className="csl-disposition-options">
           {CSL_DISPOSITIONS.map((option) => (
             <label key={option.value}>
@@ -435,25 +434,21 @@ function CSL() {
                 disabled={!trace.retest.trim()}
                 onChange={(event) => updateTrace('disposition', event.target.value)}
               />
-              <span>{option.label}</span>
+              <span>{copy.dispositions[option.value]}</span>
             </label>
           ))}
         </div>
       </fieldset>
 
-      {trace.disposition && <p className="csl-disposition-note" aria-live="polite">
-        {trace.disposition === 'stable' && 'Sufficient stabilization at the present evidence boundary. This is not a guarantee of preservation.'}
-        {trace.disposition === 'repeat' && 'Deviation remains. Adjust Constraint, re-test, and repeat the loop.'}
-        {trace.disposition === 'reconsider' && 'The maintained reference itself now requires reconsideration.'}
-      </p>}
+      {trace.disposition && <p className="csl-disposition-note" aria-live="polite">{copy.dispositionNotes[trace.disposition]}</p>}
 
       <div className="csl-clear">
-        <button type="button" className="csl-text-button" onClick={requestClear}>CLEAR TRACE</button>
-        {clearPending && <div className="csl-clear-confirm" role="group" aria-label="Confirm clearing this trace">
-          <span>CLEAR THIS TRACE?</span>
-          <button type="button" onClick={clearTrace}>CONFIRM CLEAR</button>
+        <button type="button" className="csl-text-button" onClick={requestClear}>{copy.clearTrace}</button>
+        {clearPending && <div className="csl-clear-confirm" role="group" aria-label={copy.clearQuestion}>
+          <span>{copy.clearQuestion}</span>
+          <button type="button" onClick={clearTrace}>{copy.confirmClear}</button>
           <span aria-hidden="true">/</span>
-          <button type="button" onClick={() => setClearPending(false)}>CANCEL</button>
+          <button type="button" onClick={() => setClearPending(false)}>{copy.cancel}</button>
         </div>}
       </div>
     </form>}
