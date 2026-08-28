@@ -92,6 +92,12 @@ button.research-label:hover { color:#fff; }
 .csl-name { margin:0; color:rgba(255,255,255,.62); font-size:18px; letter-spacing:.08em; }
 .csl-lead { margin:72px 0 0; font-size:30px; letter-spacing:.015em; }
 .csl-overview { width:100%; display:flex; flex-direction:column; align-items:center; }
+.csl-recognition { width:min(800px, 100%); margin:84px 0 0; padding:0; list-style:none; counter-reset:csl-recognition; border-top:1px solid rgba(255,255,255,.24); text-align:left; }
+.csl-recognition li { min-height:88px; display:grid; grid-template-columns:minmax(0, 1fr) 180px; gap:38px; align-items:center; padding:22px 0; border-bottom:1px solid rgba(255,255,255,.14); counter-increment:csl-recognition; }
+.csl-recognition-prompt { display:flex; align-items:baseline; gap:18px; color:rgba(255,255,255,.88); font-size:17px; line-height:1.5; text-transform:uppercase; }
+.csl-recognition-prompt::before { content:"0" counter(csl-recognition); flex:0 0 auto; color:rgba(255,255,255,.28); font-size:10px; letter-spacing:.12em; }
+.csl-recognition-canonical { display:flex; flex-direction:column; gap:7px; color:rgba(255,255,255,.66); font-size:11px; letter-spacing:.2em; }
+.csl-recognition-canonical small { color:rgba(255,255,255,.28); font-size:8px; letter-spacing:.18em; }
 .csl-definition { width:min(710px, 100%); margin:72px 0 0; color:rgba(255,255,255,.68); font-size:18px; line-height:1.75; }
 .csl-sequence { width:100%; margin:86px 0 0; padding:0; display:grid; grid-template-columns:repeat(6, 1fr); list-style:none; counter-reset:csl-step; }
 .csl-sequence li { min-height:76px; position:relative; display:flex; align-items:flex-start; justify-content:center; padding:28px 15px 0; border-top:1px solid rgba(255,255,255,.25); color:rgba(255,255,255,.62); font-size:11px; line-height:1.45; letter-spacing:.12em; text-transform:uppercase; }
@@ -99,6 +105,10 @@ button.research-label:hover { color:#fff; }
 .csl-sequence li:not(:last-child)::after { content:"→"; position:absolute; top:24px; right:-5px; color:rgba(255,255,255,.28); }
 .csl-substance { width:min(760px, 100%); margin-top:82px; display:grid; gap:30px; text-align:left; }
 .csl-substance p { margin:0; color:rgba(255,255,255,.58); font-size:16px; line-height:1.75; }
+.csl-guardrails { width:min(760px, 100%); margin-top:86px; display:grid; grid-template-columns:180px minmax(0, 1fr); gap:36px; align-items:start; text-align:left; }
+.csl-guardrails h2 { margin:4px 0 0; color:rgba(255,255,255,.34); font-size:10px; font-weight:400; letter-spacing:.22em; line-height:1.6; }
+.csl-guardrails ul { margin:0; padding:0; list-style:none; border-top:1px solid rgba(255,255,255,.2); }
+.csl-guardrails li { margin:0; padding:18px 0; border-bottom:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.7); font-size:14px; line-height:1.55; }
 .csl-principle { width:min(730px, 100%); margin:90px 0 0; padding:0; color:rgba(255,255,255,.9); font-size:24px; line-height:1.55; }
 .csl-enter { margin-top:72px; }
 .csl-trace { width:min(780px, 100%); margin-top:84px; text-align:left; }
@@ -216,12 +226,17 @@ button.stel-exit:hover .stel-exit-title { color:#11100e; }
   .csl-page .csl-header h1 { font-size:54px; margin-bottom:16px; }
   .csl-name { max-width:270px; font-size:15px; line-height:1.5; }
   .csl-lead { margin-top:52px; font-size:24px; }
+  .csl-recognition { margin-top:64px; }
+  .csl-recognition li { min-height:96px; grid-template-columns:1fr; gap:12px; padding:20px 0; }
+  .csl-recognition-prompt { gap:13px; font-size:15px; }
+  .csl-recognition-canonical { padding-left:31px; gap:5px; }
   .csl-definition { margin-top:56px; font-size:16px; line-height:1.7; }
   .csl-sequence { margin-top:66px; grid-template-columns:1fr; width:min(380px, 100%); }
   .csl-sequence li { min-height:58px; justify-content:flex-start; align-items:center; padding:0 0 0 32px; border-top:0; border-left:1px solid rgba(255,255,255,.25); text-align:left; }
   .csl-sequence li::before { top:50%; left:-3px; transform:translateY(-50%); }
   .csl-sequence li:not(:last-child)::after { content:"↓"; top:auto; right:auto; bottom:-7px; left:27px; }
   .csl-substance { margin-top:66px; gap:26px; }
+  .csl-guardrails { margin-top:68px; grid-template-columns:1fr; gap:18px; }
   .csl-principle { margin-top:68px; font-size:20px; }
   .csl-enter { margin-top:56px; }
   .csl-trace { margin-top:64px; }

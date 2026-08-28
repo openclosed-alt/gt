@@ -116,6 +116,23 @@ const CSL_SEQUENCE = [
   'Repeat',
 ];
 
+const CSL_RECOGNITION = [
+  { prompt: 'What are you trying to keep stable?', canonical: 'REFERENCE' },
+  { prompt: 'What changed?', canonical: 'CHANGE' },
+  { prompt: 'What started drifting?', canonical: 'DEVIATION' },
+  { prompt: 'What allowed that drift?', canonical: 'CONSTRAINT' },
+  { prompt: 'What will you change around it?', canonical: 'ADJUSTMENT' },
+  { prompt: 'Test it again.', canonical: 'RE-TEST' },
+];
+
+const CSL_GUARDRAILS = [
+  'Drift is not failure.',
+  'The thing drifting may not be the thing that is wrong.',
+  'Tighter is not always better.',
+  'Adjustment must be re-tested.',
+  'Sometimes the reference itself should be reconsidered.',
+];
+
 const CSL_TRACE_FIELDS = [
   { key: 'reference', label: 'REFERENCE', prompt: 'What relation are you maintaining?', example: 'Example: Preserve a response verbatim.' },
   { key: 'change', label: 'CHANGE', prompt: 'What changed?', example: 'Example: New context is introduced.' },
@@ -357,6 +374,13 @@ function CSL() {
     </header>
 
     {!traceOpen ? <div className="csl-overview">
+      <ol className="csl-recognition" aria-label="CSL in familiar language">
+        {CSL_RECOGNITION.map((step) => <li key={step.canonical}>
+          <span className="csl-recognition-prompt">{step.prompt}</span>
+          <span className="csl-recognition-canonical"><small>CANONICAL</small>{step.canonical}</span>
+        </li>)}
+      </ol>
+
       <p className="csl-definition">The Coherence Stabilization Loop is a recurrent process in which deviation from a maintained reference is observed, Constraint is adjusted, and the relation is re-tested.</p>
 
       <ol className="csl-sequence" aria-label="Canonical CSL sequence">
@@ -369,6 +393,13 @@ function CSL() {
         <p>Constraint may be tightened, loosened, replaced, removed, altered, or restructured. Narrower Allowance is not inherently better, and adjustment does not prove stabilization.</p>
         <p>CSL is an operator architecture. The operator need not be human.</p>
       </div>
+
+      <section className="csl-guardrails" aria-labelledby="csl-guardrails-title">
+        <h2 id="csl-guardrails-title">OPERATING DISTINCTIONS</h2>
+        <ul>
+          {CSL_GUARDRAILS.map((guardrail) => <li key={guardrail}>{guardrail}</li>)}
+        </ul>
+      </section>
 
       <blockquote className="csl-principle">The maintained structure may not be wrong. The Constraint around it may be allowing the wrong trajectories.</blockquote>
       <button className="outline-btn csl-enter" onClick={() => setTraceOpen(true)}>ENTER CSL TRACE</button>
@@ -420,9 +451,9 @@ function CSL() {
         <button type="button" className="csl-text-button" onClick={requestClear}>CLEAR TRACE</button>
         {clearPending && <div className="csl-clear-confirm" role="group" aria-label="Confirm clearing this trace">
           <span>CLEAR THIS TRACE?</span>
-          <button type="button" onClick={clearTrace}>CONFIRM</button>
+          <button type="button" onClick={clearTrace}>CONFIRM CLEAR</button>
           <span aria-hidden="true">/</span>
-          <button type="button" onClick={() => setClearPending(false)}>KEEP</button>
+          <button type="button" onClick={() => setClearPending(false)}>CANCEL</button>
         </div>}
       </div>
     </form>}
